@@ -80,7 +80,7 @@ export default class PostModals extends React.Component{
                                             <hr/>
                                             <p className="card-text">detail อะไรสักอย่างนี่แหละ</p>
                                             <hr/>
-                                            <h5 className="card-text" style={{textAlign: "right", color: "#33B5E5"}} >read more>></h5>
+                                            <h5 className="card-text" style={{textAlign: "right", color: "#33B5E5"}} >read more</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@ export default class PostModals extends React.Component{
                                             <hr/>
                                             <p className="card-text">detail อะไรสักอย่างนี่แหละ</p>
                                             <hr/>
-                                            <h5 className="card-text" style={{textAlign: "right", color: "#33B5E5"}} >read more>></h5>
+                                            <h5 className="card-text" style={{textAlign: "right", color: "#33B5E5"}} >read more</h5>
                                         </div>
                                     </div>
                                 </div>

@@ -1,26 +1,42 @@
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import ConfigureTokenizer from './ConfigureTokenizer';
 export default class Tokenizer {
-    #username;
-    #token;
-    #type;
-
+    #username = '';
+    #token = '';
+    #type = '';
+    #isLogin = false;
+    
     constructor(name){
         this.name = name
     }
     get token(){
         return this.#token
     }
-
-    getToString(){
-        return `${this.#username} :: ${this.#type} :: ${this.#token}`
+    get isLogin(){
+        return this.#isLogin
     }
 
-    setUserLogin = (data) => {
-        console.log(data)
+    get type(){
+        return this.#type
+    }
+
+    toString(){
+        return `${this.#username} :: ${this.#type} :: ${this.#token} :: ${this.#isLogin}`
+    }
+
+    setUserLogout(){
+        this.#username = ''
+        this.#token = ''
+        this.#type = ''
+        this.#isLogin = false
+    }
+
+    async setUserLogin(data){
         this.#username = data[ConfigureTokenizer.keyResponseData][0].username
         this.#token = data[ConfigureTokenizer.keyTokenHeader]
         this.#type = data[ConfigureTokenizer.keyResponseData][0].type
-        console.log(this.#username, this.#type, this.#token)
+        this.#isLogin = true
+        console.log(this.toString())
     }
 
     async setRefershtoken(response){
@@ -42,15 +58,14 @@ export default class Tokenizer {
             mode: 'cors',
             body: JSON.stringify(data)
         }
-        let response = await fetch(ConfigureTokenizer.proxyAnywhereAndUrlUserLogin, options).then(response => response)
-        if (response.ok){
-            response.json().then(data => {
-                this.setUserLogin(data)
-            })
-            
-        }
-        return response.ok
-        
+        return await fetch(ConfigureTokenizer.proxyAnywhereAndUrlUserLogin, options).then(response => {
+            if (response.ok){
+                response.json().then(data => {
+                    this.setUserLogin(data)
+                })
+            }
+            return response.ok
+        })
     }
 
     async Logout(){
@@ -66,6 +81,10 @@ export default class Tokenizer {
             mode: 'cors',
         }
         let response = await fetch(ConfigureTokenizer.proxyAnywhereAndUrlUserLogout, options).then(response => response)
+        if (response.ok){
+            this.setUserLogout()
+            // console.log(this.toString())
+        }
         return response.ok
     }
 }
